@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticAssembler", "IngameScript\AutomaticAssembler.csproj", "{12C9B8DA-C573-41C8-B039-1DBA9CEFEABF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{12C9B8DA-C573-41C8-B039-1DBA9CEFEABF}.Debug|x64.ActiveCfg = Debug|x64
+		{12C9B8DA-C573-41C8-B039-1DBA9CEFEABF}.Debug|x64.Build.0 = Debug|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {883A66E1-52AF-421B-8F54-E2C4BE327D94}
+	EndGlobalSection
+EndGlobal
