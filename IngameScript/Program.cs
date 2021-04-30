@@ -24,6 +24,21 @@ namespace IngameScript
     partial class Program : MyGridProgram
     {
 
+        Dictionary<string, string> componentItemBlueprintMap = new Dictionary<string, string>
+        {
+            { "Construction", "ConstructionComponent"},
+            { "Computer", "ComputerComponent"},
+            { "Detector", "DetectorComponent"},
+            { "Explosive", "ExplosiveComponent"},
+            { "Girder", "GirderComponent"},
+            { "GravityGenerator", "GravityGeneratorComponent"},
+            { "Medical", "MedicalComponent"},
+            { "Motor", "MotorComponent"},
+            { "Reactor", "ReactorComponent"},
+            { "RadioCommunication", "RadioCommunicationComponent"},
+            { "Thrust", "ThrustComponent"},
+        };
+
         IMyAssembler Assembler;
         List<IMyCargoContainer> Containers;
         List<IMyTextPanel> TextPanels;
@@ -50,6 +65,38 @@ namespace IngameScript
         // https://github.com/malware-dev/MDK-SE/wiki/Quick-Introduction-to-Space-Engineers-Ingame-Scripts
         //
         // to learn more about ingame scripts.
+
+        private void debugInfoInventory()
+        {
+            var outText = "";
+            foreach (IMyEntity container in Containers)
+            {
+                var items = new List<MyInventoryItem>();
+                container.GetInventory().GetItems(items);
+                foreach (var item in items)
+                {
+                    outText += item.ToString() + "\r\n";
+                }
+            }
+            foreach (IMyTextPanel textPanel in TextPanels)
+            {
+                textPanel.WriteText(outText);
+            }
+        }
+        private void debugInfoQueue()
+        {
+            var outText = "";
+            var items = new List<MyProductionItem>();
+            Assembler.GetQueue(items);
+            foreach (var item in items)
+            {
+                outText += item.BlueprintId.ToString() + "\r\n";
+            }
+            foreach (IMyTextPanel textPanel in TextPanels)
+            {
+                textPanel.WriteText(outText);
+            }
+        }
 
         public Program()
         {
@@ -117,6 +164,9 @@ namespace IngameScript
             // The method itself is required, but the arguments above
             // can be removed if not needed.
 
+            //debugInfoQueue();
+            //return;
+
             List<MyProductionItem> assemblerQueue = new List<MyProductionItem>();
             Assembler.GetQueue(assemblerQueue);
 
@@ -158,7 +208,11 @@ namespace IngameScript
 
                             if (count < lowerBound)
                             {
-                                AddToAssemblerQueueIfNotPresent(assemblerQueue, itemName, upperBound - count);
+                                string blueprintName;
+                                if (!componentItemBlueprintMap.TryGetValue(itemName, out blueprintName))
+                                    blueprintName = itemName;
+
+                                AddToAssemblerQueueIfNotPresent(assemblerQueue, blueprintName, upperBound - count);
                             }
 
                             textPanelText += itemName + " " + count.ToString() + "\n";
@@ -166,7 +220,8 @@ namespace IngameScript
                         }
                         catch (Exception e)
                         {
-
+                            Echo("An error occurred during script execution.");
+                            Echo($"Exception: {e}\n---");
                         }
 
                     }
